@@ -37,6 +37,34 @@ def main(page: ft.Page):
 
     # Tutti i TextField per le info necessarie per aggiungere una nuova automobile (marca, modello, anno, contatore posti)
     # TODO
+    text=ft.Text("\nAggiungi Nuova Automobile\n", text_align=ft.TextAlign.CENTER,
+                 size=25, weight=ft.FontWeight.BOLD)
+
+    marca=ft.TextField(width=300, label="inserisci la macchina", text_align=ft.TextAlign.CENTER)
+    modello= ft.TextField(width=300,label="inserisci il modello", text_align=ft.TextAlign.CENTER)
+    anno=ft.TextField(width=300,label="inserisci l'anno", text_align=ft.TextAlign.CENTER)
+
+    posti = ft.TextField(label="n° posti",width=100, disabled=True, text_align=ft.TextAlign.CENTER)
+    posti.value = 0
+
+    def handlerplus(e):
+        counter= posti.value
+        if posti.value >= 0:
+            counter += 1
+            posti.value=counter
+            page.update()
+
+    def handlerminus(e):
+        counter= posti.value
+        if posti.value >= 1:
+            counter -= 1
+            posti.value=counter
+            page.update()
+
+    buttonplus = ft.IconButton(icon=ft.Icons.ADD_CIRCLE_ROUNDED, on_click=handlerplus, icon_color="green")
+    buttonminus = ft.IconButton(icon=ft.Icons.REMOVE_CIRCLE_ROUNDED, on_click=handlerminus, icon_color="red")
+    meccanismo_Posti=ft.Row([buttonplus, posti, buttonminus])
+    row=ft.Row( [marca, modello, anno, meccanismo_Posti], spacing=50)
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_auto():
@@ -59,6 +87,29 @@ def main(page: ft.Page):
 
     # Handlers per la gestione dei bottoni utili all'inserimento di una nuova auto
     # TODO
+    def handleradd(e):
+        if anno.value.isdigit() and posti.value > 0:
+            marca_auto= marca.value.strip()
+            modello_auto= modello.value.strip()
+            anno_auto= int(anno.value)
+            posti_auto= int(posti.value)
+
+            autonoleggio.aggiungi_automobile(marca_auto, modello_auto, anno_auto, posti_auto)
+            aggiorna_lista_auto()
+
+            marca.value=""
+            modello.value=""
+            anno.value=""
+            posti.value=0
+            page.update()
+
+        else:
+            alert.show_alert("❌ Errore: opzione non corretta nel campo anno o  nel campo n°posti")
+            marca.value = ""
+            modello.value = ""
+            anno.value = ""
+            posti.value = 0
+
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
@@ -66,6 +117,7 @@ def main(page: ft.Page):
 
     # Bottoni per la gestione dell'inserimento di una nuova auto
     # TODO
+    btnadd= ft.ElevatedButton("Aggiungi auto", on_click=handleradd)
 
     # --- LAYOUT ---
     page.add(
@@ -84,6 +136,10 @@ def main(page: ft.Page):
 
         # Sezione 3
         # TODO
+        text,
+        row,
+        btnadd,
+
 
         # Sezione 4
         ft.Divider(),
