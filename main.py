@@ -40,7 +40,7 @@ def main(page: ft.Page):
     text=ft.Text("\nAggiungi Nuova Automobile\n", text_align=ft.TextAlign.CENTER,
                  size=25, weight=ft.FontWeight.BOLD)
 
-    marca=ft.TextField(width=300, label="inserisci la macchina", text_align=ft.TextAlign.CENTER)
+    marca=ft.TextField(width=300, label="inserisci la marca", text_align=ft.TextAlign.CENTER)
     modello= ft.TextField(width=300,label="inserisci il modello", text_align=ft.TextAlign.CENTER)
     anno=ft.TextField(width=300,label="inserisci l'anno", text_align=ft.TextAlign.CENTER)
 
